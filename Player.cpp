@@ -10,7 +10,8 @@ Player::Player()
 Player::Player(int hp, int pos[2])
 {
 	hitpoints = hp;
-	position = pos;
+	position[0] = pos[0];
+	position[1] = pos[1];
 }
 
 /*
