@@ -6,11 +6,20 @@
 const int Level::DEFAULT_SCREEN_ROWS = 20;
 const int Level::DEFAULT_SCREEN_COLS = 50;
 
+//gameplay elements
+const char Level::BORDER_CHAR = '|';
+const char Level::SPACE_CHAR = ' ';
+const char Level::PLAYER_CHAR = '@';
+const char Level::MONSTER_GOBLIN_CHAR = 'G';
+const char Level::MONSTER_BOSS_CHAR = 'B';
+
 Level::Level()
 {
 	screen = nullptr;
 	screen_rows = DEFAULT_SCREEN_ROWS;
 	screen_cols = DEFAULT_SCREEN_COLS;
+	player_pos[0] = 1;
+	player_pos[1] = 1;
 
 	screen = new char*[screen_rows];
 	for (int i = 0; i < screen_rows; i++)
@@ -18,11 +27,23 @@ Level::Level()
 		screen[i] = new char[screen_cols];
 		for (int j = 0; j < screen_cols; j++)
 		{
-			screen[i][j] = '.';
+			if (i == 0 || i == screen_rows - 1 ||
+				j == 0 || j == screen_cols - 1)
+			{
+				screen[i][j] = BORDER_CHAR;
+			}
+			else if (i == player_pos[0] && j == player_pos[1])
+			{
+				screen[i][j] = PLAYER_CHAR;
+			}
+			else
+			{
+				screen[i][j] = SPACE_CHAR;
+			}
 		}
 	}
 }
-
+/*
 Level::Level(char** screenArray, int rows, int cols)
 {
 	screen = nullptr;
@@ -39,7 +60,7 @@ Level::Level(char** screenArray, int rows, int cols)
 		}
 	}
 }
-
+*/
 Level::Level(std::string filename)
 {
 	std::fstream file(filename, std::ios::in);
@@ -92,6 +113,11 @@ Level::Level(std::string filename)
 			{
 				j--; //goes back to this element "next" loop to overwrite \n
 			}
+			else if (screen[i][j] == PLAYER_CHAR)
+			{
+				player_pos[0] = i;
+				player_pos[1] = j;
+			}
 		}
 	}
 	file.close();
@@ -141,6 +167,12 @@ void Level::setScreen(char** screenArray, int rows, int cols) //if size of level
 	}
 }
 
+void Level::setPlayerPos(int x, int y)
+{
+	player_pos[0] = x;
+	player_pos[1] = y;
+}
+
 int Level::getScreenRows() const
 {
 	return screen_rows;
@@ -149,6 +181,16 @@ int Level::getScreenRows() const
 int Level::getScreenCols() const
 {
 	return screen_cols;
+}
+
+int Level::getPlayerPosX() const
+{
+	return player_pos[0];
+}
+
+int Level::getPlayerPosY() const
+{
+	return player_pos[1];
 }
 
 char** Level::getScreen() const

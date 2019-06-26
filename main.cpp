@@ -20,8 +20,11 @@ int main()
 	Level level1(level_filename);
 
 	level1.screenOutput();
-
-
+	
+	std::cout << std::endl;
+	std::cout << level1.getPlayerPosX() << " " << level1.getPlayerPosY() << std::endl;
+	
+	//fcr_copydelete(level_filename, '.', ' ');
 
 	return 0;
 }

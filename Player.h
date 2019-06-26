@@ -5,10 +5,9 @@ class Player
 {
 private:
 	int hitpoints;
-	int position[2];
 public:
 	Player();
-	Player(int hp, int pos[2]);
+	Player(int hp);
 	//movement
 	//bool playerMove(char moveDir, char** screenArray);
 };
