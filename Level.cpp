@@ -2,17 +2,23 @@
 #include <iostream>
 #include <fstream>
 
+//***NOTE: player_pos[0] and player_pos[1] refers to x and y positions,
+//respectively, as is normally done; however, the 2d screen array is organized
+//in a row-column way, i.e. "y-x", so make sure the correct elements are being
+//used and assigned
+
 //default rows and cols sizes
 const int Level::DEFAULT_SCREEN_ROWS = 20;
 const int Level::DEFAULT_SCREEN_COLS = 50;
 
-//gameplay elements
+//game entity definitions
 const char Level::BORDER_CHAR = '|';
 const char Level::SPACE_CHAR = ' ';
 const char Level::PLAYER_CHAR = '@';
 const char Level::MONSTER_GOBLIN_CHAR = 'G';
 const char Level::MONSTER_BOSS_CHAR = 'B';
 
+//constructors
 Level::Level()
 {
 	screen = nullptr;
@@ -27,18 +33,18 @@ Level::Level()
 		screen[i] = new char[screen_cols];
 		for (int j = 0; j < screen_cols; j++)
 		{
-			if (i == 0 || i == screen_rows - 1 ||
+			if (i == 0 || i == screen_rows - 1 || //creates screen border
 				j == 0 || j == screen_cols - 1)
 			{
 				screen[i][j] = BORDER_CHAR;
 			}
-			else if (i == player_pos[0] && j == player_pos[1])
+			else if (i == player_pos[1] && j == player_pos[0]) //places player
 			{
 				screen[i][j] = PLAYER_CHAR;
 			}
 			else
 			{
-				screen[i][j] = SPACE_CHAR;
+				screen[i][j] = SPACE_CHAR; //places walkable spaces otherwise
 			}
 		}
 	}
@@ -115,14 +121,15 @@ Level::Level(std::string filename)
 			}
 			else if (screen[i][j] == PLAYER_CHAR)
 			{
-				player_pos[0] = i;
-				player_pos[1] = j;
+				player_pos[0] = j;
+				player_pos[1] = i;
 			}
 		}
 	}
 	file.close();
 }
 
+//destructor
 Level::~Level()
 {
 	for (int i = 0; i < screen_rows; i++)
@@ -133,6 +140,7 @@ Level::~Level()
 	screen = nullptr;
 }
 
+//setters (whole screen)
 void Level::setScreen(char** screenArray) //if size of level does not change
 {
 	for (int i = 0; i < screen_rows; i++)
@@ -167,12 +175,25 @@ void Level::setScreen(char** screenArray, int rows, int cols) //if size of level
 	}
 }
 
-void Level::setPlayerPos(int x, int y)
+//setters (individual elements)
+void Level::setScreenElem(char ch, int x, int y)
 {
-	player_pos[0] = x;
-	player_pos[1] = y;
+	screen[y][x] = ch;
+
+	if (ch == PLAYER_CHAR)
+	{
+		player_pos[0] = x;
+		player_pos[1] = y;
+	}
 }
 
+//getters (whole screen)
+char** Level::getScreen() const
+{
+	return screen;
+}
+
+//getters (individual elements and other data)
 int Level::getScreenRows() const
 {
 	return screen_rows;
@@ -193,9 +214,9 @@ int Level::getPlayerPosY() const
 	return player_pos[1];
 }
 
-char** Level::getScreen() const
+char Level::getScreenElem(int x, int y) const
 {
-	return screen;
+	return screen[y][x];
 }
 
 void Level::screenOutput()

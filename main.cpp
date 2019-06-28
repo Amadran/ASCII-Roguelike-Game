@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <conio.h>
+#include <stdlib.h>
+#include <cctype>
 #include "fcr.h" //replaces every oldChar with newChar in level file
 #include "Level.h"
 #include "Player.h"
@@ -18,14 +21,27 @@ int main()
 	std::string level_filename = "C:\\Users\\apikor\\Documents\\cpp_projects"
 		"\\ascii_roguelike_game\\levels\\level1.txt";
 	Level level1(level_filename);
+	Player player1;
+	char ch;
 
-	level1.screenOutput();
-	
-	std::cout << std::endl;
-	std::cout << level1.getPlayerPosX() << " " << level1.getPlayerPosY() << std::endl;
+	while (true)
+	{
+		system("cls");
+		level1.screenOutput();
+		ch = _getch();
+		if (tolower(ch) == 'q')
+		{
+			break;
+		}
+		else
+		{
+			player1.playerMove(level1,ch);
+		}
+	}
 	
 	//fcr_copydelete(level_filename, '.', ' ');
 
+	std::cout << "Thank you for playing!" << std::endl;
 	return 0;
 }
 
