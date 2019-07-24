@@ -1,6 +1,7 @@
 #include "Level.h"
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
 
 //***NOTE: player_pos[0] and player_pos[1] refers to x and y positions,
 //respectively, as is normally done; however, the 2d screen array is organized
@@ -226,8 +227,10 @@ void Level::screenOutput()
 		for (int j = 0; j < screen_cols; j++)
 		{
 			std::cout << screen[i][j];
+			//printf("%c", screen[i][j]);
 		}
 		std::cout << std::endl;
+		//printf("\n");
 	}
 }
 

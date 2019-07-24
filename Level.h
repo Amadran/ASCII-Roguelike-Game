@@ -34,6 +34,9 @@ public:
 	
 	//other functions (e.g. screen output)
 	void screenOutput(); //outputs current screen to cout (console)
+	//^----- IMPORTANT CHANGE: console output will be a lot faster if
+	//I only overwrite changes on the screen, instead of clearing and
+	//re-outputting entire screen with marginal changes
 	void levelRead(std::string filename);
 
 	//default screen sizes
