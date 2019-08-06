@@ -2,30 +2,26 @@
 #define LEVEL_H
 
 #include <string>
+#include <vector>
+#include <array>
 
 class Level
 {
 private:
-	char** screen;
+	std::vector<std::string> screen;
 	int screen_rows;
 	int screen_cols;
-	int player_pos[2];
+	std::array<int, 2> player_pos;
 public:
-	//constructors and destructor
+	//constructors
 	Level();
-	//Level(char** screenArray, int rows, int cols);
-	Level(std::string filename); //reads in level from file
-	~Level();
-
-	//setters (entire screen at once)
-	void setScreen(char** screenArray); //if size does not change
-	void setScreen(char** screenArray, int rows, int cols); //if size changes
+	Level(const std::string &filename); //reads in level from file
 
 	//setters (individual elements of screen)
 	void setScreenElem(char ch, int x, int y);
 	
 	//getters
-	char** getScreen() const;
+	std::vector<std::string> getScreen() const;
 	int getScreenRows() const;
 	int getScreenCols() const;
 	int getPlayerPosX() const; //want to return player_pos array in one function,
@@ -33,22 +29,14 @@ public:
 	char getScreenElem(int x, int y) const; //returns char at screen[x][y]
 	
 	//other functions (e.g. screen output)
-	void screenOutput(); //outputs current screen to cout (console)
+	void screenOutput() const; //outputs current screen to cout (console)
 	//^----- IMPORTANT CHANGE: console output will be a lot faster if
 	//I only overwrite changes on the screen, instead of clearing and
 	//re-outputting entire screen with marginal changes
-	void levelRead(std::string filename);
 
 	//default screen sizes
 	static const int DEFAULT_SCREEN_ROWS;
 	static const int DEFAULT_SCREEN_COLS;
-
-	//characters that represent game entities
-	static const char BORDER_CHAR;
-	static const char SPACE_CHAR; //player-walkable area
-	static const char PLAYER_CHAR;
-	static const char MONSTER_GOBLIN_CHAR;
-	static const char MONSTER_BOSS_CHAR;
 };
 
 #endif

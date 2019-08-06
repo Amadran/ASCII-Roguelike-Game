@@ -1,6 +1,6 @@
 ﻿  Level.cpp
-  main.cpp
   Monster.cpp
   Player.cpp
+  main.cpp
   Generating Code...
   ascii_roguelike_game.vcxproj -> C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\Debug\ascii_roguelike_game.exe

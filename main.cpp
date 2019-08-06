@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "Player.h"
 
+/*
 //main game functions
 void screenOutput(char** screenArray, int rows, int cols); //will eventually deprecate
 
@@ -15,12 +16,12 @@ void screenOutput(char** screenArray, int rows, int cols); //will eventually dep
 void arraySet(char** screenArray, int rows, int cols, char character);
 
 /////////////////////////////////////////////////////////////////////
-
+*/
 int main()
 {
 	std::string level_filename = "C:\\Users\\apikor\\Documents\\cpp_projects"
 		"\\ascii_roguelike_game\\levels\\level1.txt";
-	Level level1(level_filename);
+	Level level1 (level_filename);
 	Player player1;
 	char ch;
 
@@ -28,6 +29,7 @@ int main()
 	{
 		system("cls");
 		level1.screenOutput();
+		//std::cout << level1.getPlayerPosX() << " " << level1.getPlayerPosY() << std::endl;
 		ch = _getch();
 		if (tolower(ch) == 'q')
 		{
@@ -35,7 +37,7 @@ int main()
 		}
 		else
 		{
-			player1.playerMove(level1,ch);
+			player1.playerMove(level1, ch);
 		}
 	}
 	
@@ -46,7 +48,7 @@ int main()
 }
 
 /////////////////////////////////////////////////////////////////////
-
+/*
 //main game functions
 void screenOutput(char** screenArray, int rows, int cols)
 {
@@ -71,3 +73,4 @@ void arraySet(char** screenArray, int rows, int cols, char character)
 		}
 	}
 }
+*/

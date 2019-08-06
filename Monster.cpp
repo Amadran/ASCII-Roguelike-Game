@@ -1,8 +1,9 @@
 #include "Monster.h"
+#include "global_constants.h"
 
 Monster::Monster()
 {
-	monsterType = 'G';
+	monsterType = MONSTER_GOBLIN_CHAR;
 	hitpoints = 25;
 }
 

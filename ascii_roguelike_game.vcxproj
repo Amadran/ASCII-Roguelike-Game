@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fcr.h" />
+    <ClInclude Include="global_constants.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Player.h" />
