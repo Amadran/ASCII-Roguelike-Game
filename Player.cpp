@@ -1,5 +1,6 @@
 #include <cctype>
 #include "Player.h"
+#include "Level.h"
 #include "global_constants.h"
 
 Player::Player()
@@ -15,8 +16,8 @@ Player::Player(int hp)
 
 bool Player::playerMove(Level& gamelevel, char moveDir)
 {
-	int x = gamelevel.getPlayerPosX();
-	int y = gamelevel.getPlayerPosY();
+	int x = gamelevel.getPlayerPos().x;
+	int y = gamelevel.getPlayerPos().y;
 
 	switch (tolower(moveDir))
 	{

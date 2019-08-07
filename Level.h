@@ -5,13 +5,17 @@
 #include <vector>
 #include <array>
 
+struct Position
+{
+	int x;
+	int y;
+};
+
 class Level
 {
 private:
 	std::vector<std::string> screen;
-	int screen_rows;
-	int screen_cols;
-	std::array<int, 2> player_pos;
+	Position player_pos;
 public:
 	//constructors
 	Level();
@@ -20,16 +24,18 @@ public:
 	//setters (individual elements of screen)
 	void setScreenElem(char ch, int x, int y);
 	
-	//getters
-	std::vector<std::string> getScreen() const;
+	//getters (screen)
 	int getScreenRows() const;
 	int getScreenCols() const;
-	int getPlayerPosX() const; //want to return player_pos array in one function,
-	int getPlayerPosY() const; //currently only have one for each coordinate
-	char getScreenElem(int x, int y) const; //returns char at screen[x][y]
+	std::vector<std::string> getScreen() const;
+
+	//getters (game info)
+	Position getPlayerPos() const;
+	char getScreenElem(int x, int y) const; //returns char at screen[y][x]
 	
 	//other functions (e.g. screen output)
 	void screenOutput() const; //outputs current screen to cout (console)
+
 	//^----- IMPORTANT CHANGE: console output will be a lot faster if
 	//I only overwrite changes on the screen, instead of clearing and
 	//re-outputting entire screen with marginal changes

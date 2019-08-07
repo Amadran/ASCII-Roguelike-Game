@@ -16,25 +16,23 @@ const int Level::DEFAULT_SCREEN_COLS = 50;
 //constructors
 Level::Level()
 {
-	screen_rows = DEFAULT_SCREEN_ROWS;
-	screen_cols = DEFAULT_SCREEN_COLS;
-	player_pos[0] = 2;
-	player_pos[1] = 2;
-	screen.resize(screen_rows, std::string(screen_cols, SPACE_CHAR));
+	player_pos.x = 2; //default player position
+	player_pos.y = 2;
+	screen.resize(DEFAULT_SCREEN_ROWS, std::string(DEFAULT_SCREEN_COLS, SPACE_CHAR));
 	//screen.resize(screen_rows, "");
 
-	for (int i = 0; i < screen_rows; i++)
+	for (int i = 0; i < DEFAULT_SCREEN_ROWS; i++)
 	{
 		//screen.push_back(std::string(screen_cols, SPACE_CHAR));
 		//screen[i].reserve(screen_cols);
-		for (int j = 0; j < screen_cols; j++)
+		for (int j = 0; j < DEFAULT_SCREEN_COLS; j++)
 		{
-			if (i == 0 || i == screen_rows - 1 || //creates screen border
-				j == 0 || j == screen_cols - 1)
+			if (i == 0 || i == DEFAULT_SCREEN_ROWS - 1 || //creates screen border
+				j == 0 || j == DEFAULT_SCREEN_COLS - 1)
 			{
 				screen[i][j] = BORDER_CHAR;
 			}
-			else if (i == player_pos[1] && j == player_pos[0]) //places player
+			else if (i == player_pos.y && j == player_pos.x) //places player
 			{
 				screen[i][j] = PLAYER_CHAR;
 			}
@@ -59,12 +57,10 @@ Level::Level(const std::string &filename)
 		int x = (screen.end() - 1)->find(PLAYER_CHAR);
 		if (x != std::string::npos)
 		{
-			player_pos[0] = x; //x position
-			player_pos[1] = screen.size() - 1; //y position
+			player_pos.x = x;
+			player_pos.y = screen.size() - 1;
 		}
 	}
-	screen_rows = screen.size();
-	screen_cols = screen[0].size(); //assuming all lines are of equal length
 
 	file.close();
 }
@@ -76,8 +72,8 @@ void Level::setScreenElem(char ch, int x, int y)
 
 	if (ch == PLAYER_CHAR)
 	{
-		player_pos[0] = x;
-		player_pos[1] = y;
+		player_pos.x = x;
+		player_pos.y = y;
 	}
 }
 
@@ -90,22 +86,17 @@ std::vector<std::string> Level::getScreen() const
 //getters (individual elements and other data)
 int Level::getScreenRows() const
 {
-	return screen_rows;
+	return screen.size();
 }
 
 int Level::getScreenCols() const
 {
-	return screen_cols;
+	return screen[0].size();
 }
 
-int Level::getPlayerPosX() const
+Position Level::getPlayerPos() const
 {
-	return player_pos[0];
-}
-
-int Level::getPlayerPosY() const
-{
-	return player_pos[1];
+	return player_pos;
 }
 
 char Level::getScreenElem(int x, int y) const
@@ -115,7 +106,7 @@ char Level::getScreenElem(int x, int y) const
 
 void Level::screenOutput() const
 {
-	for (int i = 0; i < screen_rows; i++)
+	for (int i = 0; i < screen.size(); i++)
 	{
 		std::cout << screen[i] << std::endl;
 	}
