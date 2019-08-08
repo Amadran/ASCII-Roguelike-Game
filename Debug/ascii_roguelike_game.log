@@ -1,2 +1,10 @@
-﻿  main.cpp
+﻿  Level.cpp
+C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\Level.cpp(78): warning C4018: '<': signed/unsigned mismatch
+C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\Level.cpp(149): warning C4018: '<': signed/unsigned mismatch
+  Monster.cpp
+  Player.cpp
+  main.cpp
+C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\main.cpp(44): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\Monster.cpp(91): warning C4715: 'Monster::monsterAction': not all control paths return a value
   ascii_roguelike_game.vcxproj -> C:\Users\apikor\Documents\cpp_projects\ascii_roguelike_game\Debug\ascii_roguelike_game.exe

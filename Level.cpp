@@ -1,10 +1,11 @@
 #include "Level.h"
 #include "global_constants.h"
+#include "Monster.h"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
 
-//***NOTE: player_pos[0] and player_pos[1] refers to x and y positions,
+//***NOTE: player_pos.x and player_pos.y refers to x and y positions,
 //respectively, as is normally done; however, the 2d screen array is organized
 //in a row-column way, i.e. "y-x", so make sure the correct elements are being
 //used and assigned
@@ -40,10 +41,14 @@ Level::Level()
 	}
 }
 
-Level::Level(const std::string &filename)
+Level::Level(const std::string &filename, std::vector<Monster> &monsters)
 {
 	std::fstream file(filename, std::ios::in);
 	std::string line;
+	bool playerFindFlag = false;
+	char ch;
+	std::vector<std::string>::iterator endIt;
+	Position temp; //temporary Position object
 
 	if (file.fail())
 	{
@@ -53,12 +58,33 @@ Level::Level(const std::string &filename)
 
 	while (getline(file, line))
 	{
-		screen.push_back(line);
-		int x = (screen.end() - 1)->find(PLAYER_CHAR);
-		if (x != std::string::npos)
+		screen.push_back(line); //enter screen line into vector
+		endIt = screen.end() - 1; //for finding entity positions
+		temp.y = screen.size() - 1; //temp y-position
+
+		//find player position
+		if (!playerFindFlag)
 		{
-			player_pos.x = x;
-			player_pos.y = screen.size() - 1;
+			temp.x = endIt->find(PLAYER_CHAR);
+			if (temp.x != std::string::npos)
+			{
+				playerFindFlag = true;
+				player_pos.x = temp.x;
+				player_pos.y = temp.y;
+			}
+		}
+
+		//find monster positions
+		for (int i = 0; i < endIt->size(); i++)
+		{
+			ch = endIt->at(i); //cleaner than (*endIt)[i] or whatever
+			if (ch == MONSTER_GOBLIN_CHAR ||
+				ch == MONSTER_BOSS_CHAR)
+			{
+				temp.x = i;
+				monster_pos.push_back(temp);
+				monsters.push_back(Monster(ch));
+			}
 		}
 	}
 
@@ -66,6 +92,7 @@ Level::Level(const std::string &filename)
 }
 
 //setters (individual elements)
+//general element overload
 void Level::setScreenElem(char ch, int x, int y)
 {
 	screen[y][x] = ch;
@@ -75,6 +102,14 @@ void Level::setScreenElem(char ch, int x, int y)
 		player_pos.x = x;
 		player_pos.y = y;
 	}
+}
+
+//overload for handling monster objects ('index' is the monster index)
+void Level::setScreenElem(char monsterType, int index, int x, int y)
+{
+	screen[y][x] = monsterType;
+	monster_pos[index].x = x;
+	monster_pos[index].y = y;
 }
 
 //getters (whole screen)
@@ -97,6 +132,11 @@ int Level::getScreenCols() const
 Position Level::getPlayerPos() const
 {
 	return player_pos;
+}
+
+std::vector<Position> Level::getMonsterPos() const
+{
+	return monster_pos;
 }
 
 char Level::getScreenElem(int x, int y) const

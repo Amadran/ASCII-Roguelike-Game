@@ -11,10 +11,10 @@ private:
 public:
 	//constructors
 	Monster();
-	Monster(char type, int hp);
+	Monster(char type);
 
 	//movement function
-	void monsterMove(Level& gamelevel);
+	bool monsterAction(Level& gamelevel, int index);
 
 	//setters
 	void setType(char type);
@@ -23,6 +23,10 @@ public:
 	//getters
 	char getType() const;
 	int getHP() const;
+
+	//monster hitpoints constants
+	static const int MONSTER_GOBLIN_HP;
+	static const int MONSTER_BOSS_HP;
 };
 
 #endif

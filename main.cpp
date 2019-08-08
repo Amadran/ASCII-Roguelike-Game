@@ -17,8 +17,9 @@ int main()
 {
 	std::string level_filename = "C:\\Users\\apikor\\Documents\\cpp_projects"
 		"\\ascii_roguelike_game\\levels\\level1.txt";
-	Level level1(level_filename);
 	Player player1;
+	std::vector<Monster> monsterList;
+	Level level1(level_filename, monsterList);
 	char input;
 
 	while (true)
@@ -33,7 +34,17 @@ int main()
 		}
 		else
 		{
+			//for (int i = 0; i < monsterList.size(); i++)
+			//{
+			//	std::cout << monsterList[i].getType() << std::endl;
+			//}
+
 			player1.playerMove(level1, input);
+			
+			for (int i = 0; i < monsterList.size(); i++)
+			{
+				monsterList[i].monsterAction(level1, i);
+			}
 		}
 	}
 
