@@ -8,12 +8,13 @@ class Monster
 private:
 	char monsterType;
 	int hitpoints;
+	int damage;
 public:
 	//constructors
 	Monster();
 	Monster(char type);
 
-	//movement function
+	//movement + other action function
 	bool monsterAction(Level& gamelevel, int index);
 
 	//setters
@@ -24,9 +25,11 @@ public:
 	char getType() const;
 	int getHP() const;
 
-	//monster hitpoints constants
+	//monster constants
 	static const int MONSTER_GOBLIN_HP;
 	static const int MONSTER_BOSS_HP;
+	static const int MONSTER_GOBLIN_DMG;
+	static const int MONSTER_BOSS_DMG;
 };
 
 #endif

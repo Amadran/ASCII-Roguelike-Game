@@ -36,6 +36,7 @@ public:
 	//getters (game info)
 	Position getPlayerPos() const;
 	std::vector<Position> getMonsterPos() const;
+	Position getMonsterPos(int index) const;
 	char getScreenElem(int x, int y) const; //returns char at screen[y][x]
 	
 	//other functions (e.g. screen output)

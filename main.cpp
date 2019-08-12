@@ -24,7 +24,7 @@ int main()
 
 	while (true)
 	{
-		system("cls");
+		std::cout << std::string(level1.getScreenRows()*10, '\n');
 		level1.screenOutput();
 		//std::cout << level1.getPlayerPosX() << " " << level1.getPlayerPosY() << std::endl;
 		input = _getch();
@@ -39,7 +39,7 @@ int main()
 			//	std::cout << monsterList[i].getType() << std::endl;
 			//}
 
-			player1.playerMove(level1, input);
+			player1.playerAction(level1, monsterList, input);
 			
 			for (int i = 0; i < monsterList.size(); i++)
 			{

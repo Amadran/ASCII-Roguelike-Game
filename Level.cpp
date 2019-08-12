@@ -108,8 +108,18 @@ void Level::setScreenElem(char ch, int x, int y)
 void Level::setScreenElem(char monsterType, int index, int x, int y)
 {
 	screen[y][x] = monsterType;
-	monster_pos[index].x = x;
-	monster_pos[index].y = y;
+
+	if (monsterType == MONSTER_GOBLIN_CHAR ||
+		monsterType == MONSTER_BOSS_CHAR)
+	{
+		monster_pos[index].x = x;
+		monster_pos[index].y = y;
+	}
+	else //if monster dies (element becomes SPACE_CHAR)
+	{
+		auto rmIt = monster_pos.begin() + index;
+		monster_pos.erase(rmIt);
+	}
 }
 
 //getters (whole screen)
@@ -137,6 +147,11 @@ Position Level::getPlayerPos() const
 std::vector<Position> Level::getMonsterPos() const
 {
 	return monster_pos;
+}
+
+Position Level::getMonsterPos(int index) const
+{
+	return monster_pos[index];
 }
 
 char Level::getScreenElem(int x, int y) const

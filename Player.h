@@ -7,13 +7,15 @@ class Player
 {
 private:
 	int hitpoints;
+	int damage;
 public:
 	//constructors
 	Player();
-	Player(int hp);
+	Player(int hp, int dmg);
 
-	//movement function
-	bool playerMove(Level& gamelevel, char moveDir);
+	//movement + other action functions
+	bool playerAction(Level& gamelevel, std::vector<Monster>& monsters, char moveDir);
+	bool playerAttack(Level& gamelevel, Monster& monster);
 
 	//setters
 	void setHP(int hp);
