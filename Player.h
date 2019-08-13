@@ -14,14 +14,16 @@ public:
 	Player(int hp, int dmg);
 
 	//movement + other action functions
-	bool playerAction(Level& gamelevel, std::vector<Monster>& monsters, char moveDir);
-	bool playerAttack(Level& gamelevel, Monster& monster);
+	int playerAction(Level& gamelevel, std::vector<Monster>& monsters, char moveDir);
+	bool playerAttack(Level& gamelevel, Monster& monster); //private?
 
 	//setters
 	void setHP(int hp);
+	void setDMG(int dmg);
 
 	//getters
 	int getHP() const;
+	int getDMG() const;
 };
 
 #endif

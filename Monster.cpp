@@ -1,4 +1,5 @@
 #include "Monster.h"
+#include "Player.h"
 #include "global_constants.h"
 #include <cstdlib>
 #include <iostream>
@@ -36,90 +37,231 @@ Monster::Monster(char type)
 	}
 }
 
-bool Monster::monsterAction(Level& gamelevel, int index)
+int Monster::monsterAction(Level& gamelevel, Player& player, int index)
 {
-	Position pos = gamelevel.getMonsterPos()[index]; //getMonsterPos() returns a vector of Position's of Monster's
+	Position pos = gamelevel.getMonsterPos(index);
+	Position pPos = gamelevel.getPlayerPos();
+	bool killFlag;
 	int moveDir;
 
-	moveDir = std::rand() % 5; //0 - 4
+	moveDir = std::rand() % 9; //0 - 8
 
 	switch (moveDir)
 	{
 	case 0: //do nothing
-		return false;
+		return ACTIONCODE_NO_ACTION;
 		break;
 	case 1: //up
-		if (gamelevel.getScreenElem(pos.x, pos.y-1) == BORDER_CHAR)
+		if (gamelevel.getScreenElem(pos.x, pos.y-1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x, pos.y-1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x, pos.y-1) == MONSTER_BOSS_CHAR)
 		{
-			return false;
+			return ACTIONCODE_NO_ACTION;
 		}
-		else if (gamelevel.getScreenElem(pos.x, pos.y-1) == PLAYER_CHAR ||
-				 gamelevel.getScreenElem(pos.x, pos.y-1) == MONSTER_GOBLIN_CHAR ||
-				 gamelevel.getScreenElem(pos.x, pos.y-1) == MONSTER_BOSS_CHAR)
+		else if (gamelevel.getScreenElem(pos.x, pos.y-1) == PLAYER_CHAR)
 		{
-			//some sort of attack function
-			return true;
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
 		}
 		else
 		{
 			gamelevel.setScreenElem(monsterType, index, pos.x, pos.y-1);
 			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
 		}
 		break;
 	case 2: //down
-		if (gamelevel.getScreenElem(pos.x, pos.y+1) == BORDER_CHAR)
+		if (gamelevel.getScreenElem(pos.x, pos.y+1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x, pos.y+1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x, pos.y+1) == MONSTER_BOSS_CHAR)
 		{
-			return false;
+			return ACTIONCODE_NO_ACTION;
 		}
-		else if (gamelevel.getScreenElem(pos.x, pos.y+1) == PLAYER_CHAR ||
-				 gamelevel.getScreenElem(pos.x, pos.y+1) == MONSTER_GOBLIN_CHAR ||
-				 gamelevel.getScreenElem(pos.x, pos.y+1) == MONSTER_BOSS_CHAR)
+		else if (gamelevel.getScreenElem(pos.x, pos.y+1) == PLAYER_CHAR)
 		{
-			//some sort of attack function
-			return true;
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
 		}
 		else
 		{
 			gamelevel.setScreenElem(monsterType, index, pos.x, pos.y+1);
 			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
 		}
 		break;
 	case 3: //left
-		if (gamelevel.getScreenElem(pos.x-1, pos.y) == BORDER_CHAR)
+		if (gamelevel.getScreenElem(pos.x-1, pos.y) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y) == MONSTER_BOSS_CHAR)
 		{
-			return false;
+			return ACTIONCODE_NO_ACTION;
 		}
-		else if (gamelevel.getScreenElem(pos.x-1, pos.y) == PLAYER_CHAR ||
-				 gamelevel.getScreenElem(pos.x-1, pos.y) == MONSTER_GOBLIN_CHAR ||
-				 gamelevel.getScreenElem(pos.x-1, pos.y) == MONSTER_BOSS_CHAR)
+		else if (gamelevel.getScreenElem(pos.x-1, pos.y) == PLAYER_CHAR)
 		{
-			//some sort of attack function
-			return true;
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
 		}
 		else
 		{
 			gamelevel.setScreenElem(monsterType, index, pos.x-1, pos.y);
 			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
 		}
 		break;
 	case 4: //right
-		if (gamelevel.getScreenElem(pos.x+1, pos.y) == BORDER_CHAR)
+		if (gamelevel.getScreenElem(pos.x+1, pos.y) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y) == MONSTER_BOSS_CHAR)
 		{
-			return false;
+			return ACTIONCODE_NO_ACTION;
 		}
-		else if (gamelevel.getScreenElem(pos.x+1, pos.y) == PLAYER_CHAR ||
-				 gamelevel.getScreenElem(pos.x+1, pos.y) == MONSTER_GOBLIN_CHAR ||
-				 gamelevel.getScreenElem(pos.x+1, pos.y) == MONSTER_BOSS_CHAR)
+		else if (gamelevel.getScreenElem(pos.x+1, pos.y) == PLAYER_CHAR)
 		{
-			//some sort of attack function
-			return true;
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
 		}
 		else
 		{
 			gamelevel.setScreenElem(monsterType, index, pos.x+1, pos.y);
 			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
 		}
 		break;
+	case 5: //diagonally up-left
+		if (gamelevel.getScreenElem(pos.x-1, pos.y-1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y-1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y-1) == MONSTER_BOSS_CHAR)
+		{
+			return ACTIONCODE_NO_ACTION;
+		}
+		else if (gamelevel.getScreenElem(pos.x-1, pos.y-1) == PLAYER_CHAR)
+		{
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
+		}
+		else
+		{
+			gamelevel.setScreenElem(monsterType, index, pos.x-1, pos.y-1);
+			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
+		}
+		break;
+	case 6: //diagonally up-right
+		if (gamelevel.getScreenElem(pos.x+1, pos.y-1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y-1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y-1) == MONSTER_BOSS_CHAR)
+		{
+			return ACTIONCODE_NO_ACTION;
+		}
+		else if (gamelevel.getScreenElem(pos.x+1, pos.y-1) == PLAYER_CHAR)
+		{
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
+		}
+		else
+		{
+			gamelevel.setScreenElem(monsterType, index, pos.x+1, pos.y-1);
+			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
+		}
+		break;
+	case 7: //diagonally down-left
+		if (gamelevel.getScreenElem(pos.x-1, pos.y+1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y+1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x-1, pos.y+1) == MONSTER_BOSS_CHAR)
+		{
+			return ACTIONCODE_NO_ACTION;
+		}
+		else if (gamelevel.getScreenElem(pos.x-1, pos.y+1) == PLAYER_CHAR)
+		{
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
+		}
+		else
+		{
+			gamelevel.setScreenElem(monsterType, index, pos.x-1, pos.y+1);
+			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
+		}
+		break;
+	case 8: //diagonally down-right
+		if (gamelevel.getScreenElem(pos.x+1, pos.y+1) == BORDER_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y+1) == MONSTER_GOBLIN_CHAR ||
+			gamelevel.getScreenElem(pos.x+1, pos.y+1) == MONSTER_BOSS_CHAR)
+		{
+			return ACTIONCODE_NO_ACTION;
+		}
+		else if (gamelevel.getScreenElem(pos.x+1, pos.y+1) == PLAYER_CHAR)
+		{
+			killFlag = monsterAttack(gamelevel, player);
+
+			if (killFlag)
+			{
+				return ACTIONCODE_KILL;
+			}
+			return ACTIONCODE_ATTACK;
+		}
+		else
+		{
+			gamelevel.setScreenElem(monsterType, index, pos.x+1, pos.y+1);
+			gamelevel.setScreenElem(SPACE_CHAR, pos.x, pos.y);
+			return ACTIONCODE_MOVE;
+		}
+		break;
+	}
+}
+
+//may add overload for attacking other monsters later
+bool Monster::monsterAttack(Level& gamelevel, Player& player)
+{
+	int newHP = player.getHP() - damage;
+
+	if (newHP > 0)
+	{
+		player.setHP(newHP);
+		std::cout << "You have taken a hit for " << damage << " damage!" << std::endl;
+		return false; //false for 'you did not die'
+	}
+	else
+	{
+		player.setHP(0); //probably unnecessary
+		std::cout << "You have died!" << std::endl;
+		return true; //true for 'you did die'
 	}
 }
 

@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include "Level.h"
+#include "Player.h"
 
 class Monster
 {
@@ -15,7 +16,8 @@ public:
 	Monster(char type);
 
 	//movement + other action function
-	bool monsterAction(Level& gamelevel, int index);
+	int monsterAction(Level& gamelevel, Player& player, int index);
+	bool monsterAttack(Level& gamelevel, Player& player); //private?
 
 	//setters
 	void setType(char type);

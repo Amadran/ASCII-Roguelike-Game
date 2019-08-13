@@ -28,7 +28,7 @@ int main()
 		level1.screenOutput();
 		//std::cout << level1.getPlayerPosX() << " " << level1.getPlayerPosY() << std::endl;
 		input = _getch();
-		if (tolower(input) == 'q')
+		if (tolower(input) == '-')
 		{
 			break;
 		}
@@ -43,7 +43,7 @@ int main()
 			
 			for (int i = 0; i < monsterList.size(); i++)
 			{
-				monsterList[i].monsterAction(level1, i);
+				monsterList[i].monsterAction(level1, player1, i);
 			}
 		}
 	}
