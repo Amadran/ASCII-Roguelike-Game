@@ -16,8 +16,10 @@ public:
 	Monster(char type);
 
 	//movement + other action function
-	int monsterAction(Level& gamelevel, Player& player, int index);
-	bool monsterAttack(Level& gamelevel, Player& player); //private?
+	int monsterAction(Level& gamelevel, Player& player, int index, std::string& message);
+	bool monsterAttack(Level& gamelevel, Player& player, std::string& message); //private?
+	int processAction(Level& gamelevel, Player& player, int xInc, int yInc,
+		int index, std::string& message); //private?
 
 	//setters
 	void setType(char type);

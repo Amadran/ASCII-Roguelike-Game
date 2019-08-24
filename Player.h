@@ -13,9 +13,9 @@ public:
 	Player();
 	Player(int hp, int dmg);
 
-	//movement + other action functions
-	int playerAction(Level& gamelevel, std::vector<Monster>& monsters, char moveDir);
-	bool playerAttack(Level& gamelevel, Monster& monster); //private?
+	//main action function
+	int playerAction(Level& gamelevel, std::vector<Monster>& monsters,
+		char moveDir, std::string& message);
 
 	//setters
 	void setHP(int hp);
@@ -24,6 +24,13 @@ public:
 	//getters
 	int getHP() const;
 	int getDMG() const;
+
+private:
+	//function to process combat (to be used inside 'playerAction')
+	bool playerAttack(Level& gamelevel, Monster& monster, std::string& message);
+	//function to process key presses (to be used inside 'playerAction')
+	int processAction(Level& gamelevel, std::vector<Monster>& monsters,
+		int xInc, int yInc, std::string& message);
 };
 
 #endif
